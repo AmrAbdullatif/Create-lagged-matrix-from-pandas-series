@@ -1,0 +1,6 @@
+# number of hits in a series
+def hits(a):
+    num_hits = np.sum([i>0 for i in a])
+    return num_hits
+    
+# Then you can use pandas apply function
