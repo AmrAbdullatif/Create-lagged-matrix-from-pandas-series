@@ -1,0 +1,14 @@
+#  use of np.lib.stride_tricks.as_strided
+
+def create_time_lagged_asstrided(X, shift, step, n_col):  
+    a_ext = np.r_[X.values, np.zeros(shift - 1, dtype=X.dtype)]
+    strided = np.lib.stride_tricks.as_strided
+    s = a_ext.strides[0]
+    ncols = (len(X) - shift + n_col * step) // step
+    windows_ar = strided(a_ext, shape=(shift, ncols), strides=(s, step * s))
+    return pd.DataFrame(windows_ar)
+    
+    
+## Example: 
+## x = pd.Series([1, 2, 3, 4, 5, 0, 0, 6,7, 8, 9, 10])
+## df = create_time_lagged_asstrided(x, shift, 1, 1)
